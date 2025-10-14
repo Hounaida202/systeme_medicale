@@ -38,18 +38,22 @@
                 </div>
             </div>
             <div class="flex items-center gap-4">
-                <span class="text-sm text-gray-600">Infirmière Sophie</span>
+                <span class="text-sm text-gray-600">Infirmière ${sessionScope.firstname}</span>
                 <div class="w-10 h-10 bg-gradient-to-br from-pink-300 to-purple-300 rounded-full flex items-center justify-center text-white font-semibold">
                     S
                 </div>
                 <button
+
                         id="logoutBtn"
                         class="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all font-medium"
                 >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                    </svg>
-                    Déconnexion
+                    <a href="logout">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Déconnexion
+                    </a>
+
                 </button>
             </div>
         </div>
@@ -362,14 +366,7 @@
         }, 6000);
     });
 
-    // Logout functionality
-    logoutBtn.addEventListener('click', function() {
-        if (confirm('Êtes-vous sûr de vouloir vous déconnecter ? 👋')) {
-            console.log('Déconnexion...');
-            alert('À bientôt ! Prenez soin de vous ! 💖');
-            // window.location.href = 'login.html';
-        }
-    });
+
 </script>
 </body>
 </html>

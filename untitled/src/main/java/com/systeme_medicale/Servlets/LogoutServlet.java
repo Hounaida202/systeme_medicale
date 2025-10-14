@@ -23,6 +23,6 @@ public class LogoutServlet extends HttpServlet {
         }
 
         // Rediriger vers la page de connexion
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("index.jsp");
     }
 }
