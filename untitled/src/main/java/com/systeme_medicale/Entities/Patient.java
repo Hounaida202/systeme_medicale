@@ -1,10 +1,9 @@
 package com.systeme_medicale.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "patients")
@@ -20,10 +19,11 @@ public class Patient {
     private Double tele;
     private String adresse;
 
-    // Constructeur vide requis par JPA
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Signe> signes = new ArrayList<>();
+
     public Patient() {}
 
-    // Constructeur complet
     public Patient(String nom, String prenom, String dateNaissance, Double num_securite_sociale, Double tele, String adresse) {
         this.nom = nom;
         this.prenom = prenom;
