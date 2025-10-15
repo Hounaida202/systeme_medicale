@@ -1,9 +1,8 @@
 package com.systeme_medicale.Entities;
 
 import jakarta.persistence.*;
-
 @Entity
-@Table(name = "signes") // enlever l'espace pour éviter les erreurs
+@Table(name = "signes")
 public class Signe {
 
     @Id
@@ -13,31 +12,60 @@ public class Signe {
     private String temperature;
     private String tension;
     private String pouls;
-    private int id_patient;
 
-    // Constructeur vide requis par JPA
+    // 🔹 Correction de la relation
+    @OneToOne
+    @JoinColumn(name = "id_patient")
+    private Patient patient;
+
+    // Constructeurs
     public Signe() {}
 
-    // Constructeur complet
-    public Signe(String temperature, String tension, String pouls, int id_patient) {
+    public Signe(String temperature, String tension, String pouls, Patient patient) {
         this.temperature = temperature;
         this.tension = tension;
         this.pouls = pouls;
-        this.id_patient = id_patient;
+        this.patient = patient;
     }
 
     // Getters et Setters
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getTemperature() { return temperature; }
-    public void setTemperature(String temperature) { this.temperature = temperature; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getTension() { return tension; }
-    public void setTension(String tension) { this.tension = tension; }
+    public String getTemperature() {
+        return temperature;
+    }
 
-    public String getPouls() { return pouls; }
-    public void setPouls(String pouls) { this.pouls = pouls; }
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
 
-    public int getId_patient() { return id_patient; }
-    public void setId_patient(int id_patient) { this.id_patient = id_patient; }
+    public String getTension() {
+        return tension;
+    }
+
+    public void setTension(String tension) {
+        this.tension = tension;
+    }
+
+    public String getPouls() {
+        return pouls;
+    }
+
+    public void setPouls(String pouls) {
+        this.pouls = pouls;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 }

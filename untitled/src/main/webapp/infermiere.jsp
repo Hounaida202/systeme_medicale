@@ -53,7 +53,6 @@
                         </svg>
                         Déconnexion
                     </a>
-
                 </button>
             </div>
         </div>
@@ -76,7 +75,7 @@
                         </svg>
                         Nouveau patient
                     </a>
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl transition-all">
+                    <a href="getPatients" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
@@ -122,7 +121,7 @@
                     <p class="text-gray-500 text-sm">Remplissez les informations du patient et ses signes vitaux</p>
                 </div>
 
-                <form id="patientForm" class="space-y-8">
+                <form id="patientForm" action="ajouterPatient" method="post" class="space-y-8">
                     <!-- Section: Informations Personnelles -->
                     <div class="border-2 border-pink-100 rounded-2xl p-6 bg-gradient-to-br from-pink-50 to-purple-50">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
@@ -132,13 +131,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Nom -->
                             <div>
-                                <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
+                                <label for="lastName"  class="block text-sm font-medium text-gray-700 mb-2">
                                     Nom <span class="text-red-500">*</span>
                                 </label>
                                 <input
                                         type="text"
                                         id="lastName"
-                                        name="lastName"
+                                        name="nom"
                                         required
                                         class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all outline-none bg-white"
                                         placeholder="Dupont"
@@ -153,7 +152,7 @@
                                 <input
                                         type="text"
                                         id="firstName"
-                                        name="firstName"
+                                        name="prenom"
                                         required
                                         class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all outline-none bg-white"
                                         placeholder="Marie"
@@ -168,7 +167,7 @@
                                 <input
                                         type="date"
                                         id="birthDate"
-                                        name="birthDate"
+                                        name="dateNaissance"
                                         required
                                         class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all outline-none bg-white"
                                 >
@@ -182,7 +181,7 @@
                                 <input
                                         type="text"
                                         id="socialSecurity"
-                                        name="socialSecurity"
+                                        name="num_securite_sociale"
                                         required
                                         pattern="[0-9]{15}"
                                         maxlength="15"
@@ -200,7 +199,7 @@
                                 <input
                                         type="tel"
                                         id="phone"
-                                        name="phone"
+                                        name="tele"
                                         required
                                         class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all outline-none bg-white"
                                         placeholder="06 12 34 56 78"
@@ -215,7 +214,7 @@
                                 <input
                                         type="text"
                                         id="address"
-                                        name="address"
+                                        name="adresse"
                                         required
                                         class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all outline-none bg-white"
                                         placeholder="123 Rue de la Santé, Paris"
@@ -279,7 +278,7 @@
                                     <input
                                             type="number"
                                             id="pulse"
-                                            name="pulse"
+                                            name="pouls"
                                             required
                                             min="40"
                                             max="200"
@@ -312,6 +311,16 @@
                         </button>
                     </div>
                 </form>
+                <% String message = (String) request.getAttribute("message"); %>
+                <% if (message != null) { %>
+                <div class="mt-6 bg-green-50 border-2 border-green-300 rounded-xl p-4 flex items-center gap-3 shadow-md animate-fade-in">
+                    <div class="text-3xl">✅</div>
+                    <div>
+                        <p class="font-semibold text-green-800"><%= message %></p>
+                        <p class="text-sm text-green-600">Les informations du patient ont été enregistrées.</p>
+                    </div>
+                </div>
+                <% } %>
 
                 <!-- Success Message -->
                 <div id="successMessage" class="hidden mt-6 bg-green-50 border-2 border-green-200 rounded-xl p-4">
@@ -328,45 +337,45 @@
     </div>
 </main>
 
-<script>
-    const form = document.getElementById('patientForm');
-    const successMessage = document.getElementById('successMessage');
-    const successDetails = document.getElementById('successDetails');
-    const logoutBtn = document.getElementById('logoutBtn');
+<%--<script>--%>
+<%--    const form = document.getElementById('patientForm');--%>
+<%--    const successMessage = document.getElementById('successMessage');--%>
+<%--    const successDetails = document.getElementById('successDetails');--%>
+<%--    const logoutBtn = document.getElementById('logoutBtn');--%>
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+<%--    form.addEventListener('submit', function(e) {--%>
+<%--        e.preventDefault();--%>
 
-        const patientData = {
-            lastName: document.getElementById('lastName').value,
-            firstName: document.getElementById('firstName').value,
-            birthDate: document.getElementById('birthDate').value,
-            socialSecurity: document.getElementById('socialSecurity').value,
-            phone: document.getElementById('phone').value,
-            address: document.getElementById('address').value,
-            vitalSigns: {
-                temperature: document.getElementById('temperature').value,
-                tension: document.getElementById('tension').value,
-                pulse: document.getElementById('pulse').value
-            }
-        };
+<%--        const patientData = {--%>
+<%--            lastName: document.getElementById('lastName').value,--%>
+<%--            firstName: document.getElementById('firstName').value,--%>
+<%--            birthDate: document.getElementById('birthDate').value,--%>
+<%--            socialSecurity: document.getElementById('socialSecurity').value,--%>
+<%--            phone: document.getElementById('phone').value,--%>
+<%--            address: document.getElementById('address').value,--%>
+<%--            vitalSigns: {--%>
+<%--                temperature: document.getElementById('temperature').value,--%>
+<%--                tension: document.getElementById('tension').value,--%>
+<%--                pulse: document.getElementById('pulse').value--%>
+<%--            }--%>
+<%--        };--%>
 
-        console.log('Nouveau patient enregistré:', patientData);
+<%--        console.log('Nouveau patient enregistré:', patientData);--%>
 
-        // Show success message
-        successDetails.textContent = `${patientData.firstName} ${patientData.lastName} a été ajouté(e) au système.`;
-        successMessage.classList.remove('hidden');
+<%--        // Show success message--%>
+<%--        successDetails.textContent = `${patientData.firstName} ${patientData.lastName} a été ajouté(e) au système.`;--%>
+<%--        successMessage.classList.remove('hidden');--%>
 
-        // Reset form
-        form.reset();
+<%--        // Reset form--%>
+<%--        form.reset();--%>
 
-        // Hide success message after 6 seconds
-        setTimeout(() => {
-            successMessage.classList.add('hidden');
-        }, 6000);
-    });
+<%--        // Hide success message after 6 seconds--%>
+<%--        setTimeout(() => {--%>
+<%--            successMessage.classList.add('hidden');--%>
+<%--        }, 6000);--%>
+<%--    });--%>
 
 
-</script>
+<%--</script>--%>
 </body>
 </html>
