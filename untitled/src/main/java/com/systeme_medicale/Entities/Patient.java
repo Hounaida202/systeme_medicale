@@ -10,31 +10,31 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_patient;
-
     private String nom;
     private String prenom;
     private String dateNaissance;
     private String num_securite_sociale;
     private String tele;
     private String adresse;
+    @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'desactive'")
+    private String status;
 
-    // 🔹 Correction de la relation OneToOne
+
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Signe signes;
 
-    // Constructeurs
     public Patient() {}
 
-    public Patient(String nom, String prenom, String dateNaissance, String num_securite_sociale, String tele, String adresse) {
+    public Patient(String nom, String prenom, String dateNaissance, String num_securite_sociale, String tele, String adresse ) {
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
         this.num_securite_sociale = num_securite_sociale;
         this.tele = tele;
         this.adresse = adresse;
+
     }
 
-    // Getters et Setters (corrigez les noms pour correspondre à votre JSP)
     public Long getId_patient() {
         return id_patient;
     }
@@ -60,6 +60,9 @@ public class Patient {
 
     public String getAdresse() { return adresse; }
     public void setAdresse(String adresse) { this.adresse = adresse; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
     public Signe getSignes() {
         return signes;

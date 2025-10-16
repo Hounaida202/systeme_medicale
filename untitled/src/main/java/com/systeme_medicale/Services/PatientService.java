@@ -7,7 +7,6 @@ import java.util.List;
 
 public class PatientService {
     private PatientDAO patientDAO = new PatientDAO();
-
     public void ajouterPatientAvecSignes(String nom, String prenom, String dateNaissance,
                                          String num_securite_sociale, String tele, String adresse,
                                          String temperature, String tension, String pouls) {
@@ -42,5 +41,25 @@ public class PatientService {
             System.out.println("Aucun patient récupéré");
         }
         return patients;
+    }
+    public List<Patient> getAttentePatients() {
+        List<Patient> patients = PatientDAO.getAttentePatients();
+        if (patients != null) {
+            System.out.println("Nombre de patients récupérés: " + patients.size());
+            for (Patient p : patients) {
+                System.out.println("Patient: " + p.getNom() + " " + p.getPrenom());
+                if (p.getSignes() != null) {
+                    System.out.println("Signes: " + p.getSignes().getTemperature());
+                } else {
+                    System.out.println("Aucun signe pour ce patient");
+                }
+            }
+        } else {
+            System.out.println("Aucun patient récupéré");
+        }
+        return patients;
+    }
+    public void updatePatientAndSignes(Long id, String temperature, String tension, String pouls) {
+        patientDAO.updatePatientAndSignes(id, temperature, tension, pouls);
     }
 }

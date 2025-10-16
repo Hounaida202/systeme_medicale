@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
 @WebServlet("/getPatients")
 public class PatientsInfosServlet extends HttpServlet {
@@ -21,16 +22,44 @@ public class PatientsInfosServlet extends HttpServlet {
 
         System.out.println("=== SERVLET GETPATIENTS APPELÉE ===");
 
-        List<Patient> patients = patientService.getAllPatients();
+        List<Patient> allPatients = patientService.getAllPatients();
+        List<Patient> filteredPatients = new ArrayList<>();
 
-        if (patients != null) {
-            System.out.println("Patients envoyés au JSP: " + patients.size());
+        // Récupérer le paramètre de recherche
+        String searchTerm = request.getParameter("search");
+
+        // Filtrer les patients si un terme de recherche est fourni
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            String searchLower = searchTerm.toLowerCase().trim();
+
+            for (Patient patient : allPatients) {
+                if (matchesSearch(patient, searchLower)) {
+                    filteredPatients.add(patient);
+                }
+            }
+
+            System.out.println("Recherche: '" + searchTerm + "' - " + filteredPatients.size() + " patients trouvés");
+            request.setAttribute("patients", filteredPatients);
         } else {
-            System.out.println("Liste de patients est null");
+            // Pas de recherche, afficher tous les patients
+            System.out.println("Aucune recherche - " + allPatients.size() + " patients affichés");
+            request.setAttribute("patients", allPatients);
         }
 
-        // on envoie la liste au JSP
-        request.setAttribute("patients", patients);
         request.getRequestDispatcher("PatientList.jsp").forward(request, response);
+    }
+
+    private boolean matchesSearch(Patient patient, String searchTerm) {
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return true;
+        }
+
+        // Rechercher dans tous les champs
+        return (patient.getNom() != null && patient.getNom().toLowerCase().contains(searchTerm)) ||
+                (patient.getPrenom() != null && patient.getPrenom().toLowerCase().contains(searchTerm)) ||
+                (patient.getNumeroSecuriteSociale() != null && patient.getNumeroSecuriteSociale().toLowerCase().contains(searchTerm)) ||
+                (patient.getTelephone() != null && patient.getTelephone().toLowerCase().contains(searchTerm)) ||
+                (patient.getAdresse() != null && patient.getAdresse().toLowerCase().contains(searchTerm)) ||
+                (patient.getDateNaissance() != null && patient.getDateNaissance().toLowerCase().contains(searchTerm));
     }
 }

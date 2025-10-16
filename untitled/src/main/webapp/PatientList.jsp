@@ -93,7 +93,7 @@
                         </svg>
                         Mes patients
                     </a>
-                    <a href="FileAttente.jsp" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl transition-all">
+                    <a href="FileDattenteServlet" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
@@ -149,8 +149,6 @@
 
             <!-- Patients Cards -->
             <div id="patientsContainer" class="space-y-4">
-                <!-- Debug Information -->
-
 
                 <% if (hasPatients) {
                     int index = 0;
@@ -237,12 +235,13 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="add-queue-btn ml-4 px-6 py-3 bg-gradient-to-r from-orange-400 to-red-400 text-white font-semibold rounded-xl hover:from-orange-500 hover:to-red-500 transform hover:scale-105 transition-all shadow-md flex items-center gap-2 whitespace-nowrap">
+                        <button onclick="openModal(<%= patient.getId_patient() %>, '<%= signes != null ? signes.getTemperature() : "" %>', '<%= signes != null ? signes.getTension() : "" %>', '<%= signes != null ? signes.getPouls() : "" %>')" class="add-queue-btn ml-4 px-6 py-3 bg-gradient-to-r from-orange-400 to-red-400 text-white font-semibold rounded-xl hover:from-orange-500 hover:to-red-500 transform hover:scale-105 transition-all shadow-md flex items-center gap-2 whitespace-nowrap">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
                             Ajouter à la file
                         </button>
+
                     </div>
                 </div>
                 <%
@@ -257,6 +256,34 @@
                 </div>
                 <% } %>
             </div>
+            <!-- Modal -->
+            <div id="updateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white rounded-xl p-6 w-96">
+                    <h3 class="text-lg font-bold mb-4">Modifier Signes du Patient</h3>
+                    <form id="updateForm" method="post" action="updateSignesServlet">
+                        <input type="hidden" name="patientId" id="modalPatientId">
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium text-gray-700">Température</label>
+                            <input type="text" name="temperature" id="modalTemperature" class="mt-1 block w-full border rounded p-2">
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium text-gray-700">Tension</label>
+                            <input type="text" name="tension" id="modalTension" class="mt-1 block w-full border rounded p-2">
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium text-gray-700">Pouls</label>
+                            <input type="text" name="pouls" id="modalPouls" class="mt-1 block w-full border rounded p-2">
+                        </div>
+                        <div class="flex justify-end gap-2 mt-4">
+                            <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded">Annuler</button>
+                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Enregistrer</button>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+
 
             <!-- No Results Message -->
             <div id="noResults" class="hidden bg-white rounded-2xl shadow-lg p-8 text-center">
@@ -279,4 +306,18 @@
     </div>
 </div>
 </body>
+<script>
+    function openModal(patientId, temperature, tension, pouls) {
+        document.getElementById("modalPatientId").value = patientId;
+        document.getElementById("modalTemperature").value = temperature;
+        document.getElementById("modalTension").value = tension;
+        document.getElementById("modalPouls").value = pouls;
+        document.getElementById("updateModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+        document.getElementById("updateModal").classList.add("hidden");
+    }
+</script>
+
 </html>

@@ -24,6 +24,7 @@ public class PatientServlet extends HttpServlet {
             String tele = request.getParameter("tele");
             String adresse = request.getParameter("adresse");
 
+
             String temperature = request.getParameter("temperature");
             String tension = request.getParameter("tension");
             String pouls = request.getParameter("pouls");
@@ -53,10 +54,8 @@ public class PatientServlet extends HttpServlet {
                     temperature, tension, pouls
             );
 
-// ✅ Ajouter un message de réussite dans la requête
             request.setAttribute("message", "✅ Patient ajouté avec succès !");
 
-// ✅ Revenir vers la page infirmière
             request.getRequestDispatcher("infermiere.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
