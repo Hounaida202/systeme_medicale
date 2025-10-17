@@ -1,7 +1,17 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %><%
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %><%--%>
+<%--    String patientId = request.getParameter("patientId");--%>
+<%--    // Supprimez cette ligne: request.setAttribute("patientId", patientId);--%>
+<%--%>--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.systeme_medicale.Entities.Patient" %>
+<%@ page import="com.systeme_medicale.Entities.Signe" %>
+<%
+    Patient patient = (Patient) request.getAttribute("patient");
     String patientId = request.getParameter("patientId");
-    // Supprimez cette ligne: request.setAttribute("patientId", patientId);
 %>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -58,10 +68,12 @@
                         id="logoutBtn"
                         class="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all font-medium"
                 >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                    </svg>
-                    Déconnexion
+                    <a href="logout">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Déconnexion</a>
+
                 </button>
             </div>
         </div>
@@ -77,9 +89,23 @@
             <div class="bg-white rounded-2xl shadow-lg p-6 slide-in">
                 <div class="flex flex-col items-center mb-6">
                     <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mb-4">
-                        MD
+                        <%
+                            String initials = "??";
+                            if (patient != null && patient.getPrenom() != null && !patient.getPrenom().isEmpty() &&
+                                    patient.getNom() != null && !patient.getNom().isEmpty()) {
+                                initials = patient.getPrenom().substring(0, 1).toUpperCase() +
+                                        patient.getNom().substring(0, 1).toUpperCase();
+                            }
+                        %>
+                        <%= initials %>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800 text-center"></h2>
+                    <h2 class="text-2xl font-bold text-gray-800 text-center">
+                        <% if (patient != null) { %>
+                        <%= patient.getPrenom() %> <%= patient.getNom() %>
+                        <% } else { %>
+                        Patient non trouvé
+                        <% } %>
+                    </h2>
                     <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold mt-2">Patient Actif</span>
                 </div>
 
@@ -88,28 +114,52 @@
                         <span class="text-2xl">🎂</span>
                         <div>
                             <p class="text-xs text-gray-600 font-medium">Date de naissance</p>
-                            <p class="font-semibold text-gray-800">15/03/1985 (40 ans)</p>
+                            <p class="font-semibold text-gray-800">
+                                <% if (patient != null && patient.getDateNaissance() != null) { %>
+                                <%= patient.getDateNaissance() %>
+                                <% } else { %>
+                                Non renseignée
+                                <% } %>
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-xl">
                         <span class="text-2xl">🆔</span>
                         <div>
                             <p class="text-xs text-gray-600 font-medium">N° Sécurité Sociale</p>
-                            <p class="font-semibold text-gray-800">2 85 03 56 750 123 45</p>
+                            <p class="font-semibold text-gray-800">
+                                <% if (patient != null && patient.getNumeroSecuriteSociale() != null) { %>
+                                <%= patient.getNumeroSecuriteSociale() %>
+                                <% } else { %>
+                                Non renseigné
+                                <% } %>
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
                         <span class="text-2xl">📞</span>
                         <div>
                             <p class="text-xs text-gray-600 font-medium">Téléphone</p>
-                            <p class="font-semibold text-gray-800">06 12 34 56 78</p>
+                            <p class="font-semibold text-gray-800">
+                                <% if (patient != null && patient.getTelephone() != null) { %>
+                                <%= patient.getTelephone() %>
+                                <% } else { %>
+                                Non renseigné
+                                <% } %>
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 p-3 bg-purple-50 rounded-xl">
                         <span class="text-2xl">🏠</span>
                         <div>
                             <p class="text-xs text-gray-600 font-medium">Adresse</p>
-                            <p class="font-semibold text-gray-800">12 Rue Victor Hugo, Paris</p>
+                            <p class="font-semibold text-gray-800">
+                                <% if (patient != null && patient.getAdresse() != null) { %>
+                                <%= patient.getAdresse() %>
+                                <% } else { %>
+                                Non renseignée
+                                <% } %>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -126,7 +176,13 @@
                             <span class="text-sm font-medium text-gray-600">🌡️ Température</span>
                             <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full font-semibold">Normal</span>
                         </div>
-                        <p class="text-3xl font-bold text-red-600">37.2°C</p>
+                        <p class="text-3xl font-bold text-red-600">
+                            <% if (patient != null && patient.getSignes() != null && patient.getSignes().getTemperature() != null) { %>
+                            <%= patient.getSignes().getTemperature() %>°C
+                            <% } else { %>
+                            37.2°C
+                            <% } %>
+                        </p>
                         <p class="text-xs text-gray-500 mt-1">Normal: 36.5 - 37.5°C</p>
                     </div>
                     <div class="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl">
@@ -134,7 +190,13 @@
                             <span class="text-sm font-medium text-gray-600">💉 Tension Artérielle</span>
                             <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full font-semibold">Normal</span>
                         </div>
-                        <p class="text-3xl font-bold text-blue-600">120/80</p>
+                        <p class="text-3xl font-bold text-blue-600">
+                            <% if (patient != null && patient.getSignes() != null && patient.getSignes().getTension() != null) { %>
+                            <%= patient.getSignes().getTension() %>
+                            <% } else { %>
+                            120/80
+                            <% } %>
+                        </p>
                         <p class="text-xs text-gray-500 mt-1">mmHg</p>
                     </div>
                     <div class="p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
@@ -142,7 +204,13 @@
                             <span class="text-sm font-medium text-gray-600">❤️ Pouls</span>
                             <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full font-semibold">Normal</span>
                         </div>
-                        <p class="text-3xl font-bold text-purple-600">72 bpm</p>
+                        <p class="text-3xl font-bold text-purple-600">
+                            <% if (patient != null && patient.getSignes() != null && patient.getSignes().getPouls() != null) { %>
+                            <%= patient.getSignes().getPouls() %> bpm
+                            <% } else { %>
+                            72 bpm
+                            <% } %>
+                        </p>
                         <p class="text-xs text-gray-500 mt-1">Normal: 60 - 100 bpm</p>
                     </div>
                 </div>
@@ -263,16 +331,19 @@
                         </button>
 
                         <!-- Annuler -->
-                        <button
-                                type="button"
-                                id="cancelBtn"
-                                class="px-6 py-4 bg-gradient-to-r from-red-400 to-pink-500 text-white font-bold rounded-xl hover:from-red-500 hover:to-pink-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                        >
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                            <span>Annuler</span>
-                        </button>
+                        <a href="FileDattente2Servlet">
+                            <button
+                                    type="button"
+                                    id="cancelBtn"
+                                    class="px-6 py-4 bg-gradient-to-r from-red-400 to-pink-500 text-white font-bold rounded-xl hover:from-red-500 hover:to-pink-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                            >
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span>Annuler</span>
+                            </button>
+                        </a>
+
                     </div>
                 </div>
             </form>

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.systeme_medicale.Entities.Patient" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,10 +48,12 @@
                         id="logoutBtn"
                         class="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all font-medium"
                 >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                    </svg>
-                    Déconnexion
+                   <a href="logout">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                          </svg>
+                            Déconnexion</a>
+
                 </button>
             </div>
         </div>
@@ -201,7 +204,12 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="consultationpage.jsp?patientId=<%= patient.getId_patient() %>">
+<%--                        <a href="consultationpage.jsp?patientId=<%= patient.getId_patient() %>">--%>
+<%--                            <button class="consult-btn ml-4 px-8 py-4 bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-teal-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap text-lg">--%>
+<%--                                Consulter--%>
+<%--                            </button>--%>
+<%--                        </a>--%>
+                        <a href="ConsultationServlet?patientId=<%= patient.getId_patient() %>">
                             <button class="consult-btn ml-4 px-8 py-4 bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-teal-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap text-lg">
                                 Consulter
                             </button>

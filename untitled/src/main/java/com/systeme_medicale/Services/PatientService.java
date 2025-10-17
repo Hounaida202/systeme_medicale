@@ -62,4 +62,19 @@ public class PatientService {
     public void updatePatientAndSignes(Long id, String temperature, String tension, String pouls) {
         patientDAO.updatePatientAndSignes(id, temperature, tension, pouls);
     }
+    public Patient getPatientById(Long patientId) {
+        Patient patient = patientDAO.getPatientById(patientId);
+        if (patient != null) {
+            System.out.println("Patient récupéré: " + patient.getNom() + " " + patient.getPrenom());
+            if (patient.getSignes() != null) {
+                System.out.println("Signes: " + patient.getSignes().getTemperature() + " / " +
+                        patient.getSignes().getTension() + " / " + patient.getSignes().getPouls());
+            } else {
+                System.out.println("Aucun signe pour ce patient");
+            }
+        } else {
+            System.out.println("Patient non trouvé avec ID: " + patientId);
+        }
+        return patient;
+    }
 }

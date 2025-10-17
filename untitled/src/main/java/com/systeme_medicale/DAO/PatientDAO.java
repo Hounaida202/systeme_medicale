@@ -73,4 +73,21 @@ public class PatientDAO {
                 em.getTransaction().commit();
             em.close();
     }
+
+    public Patient getPatientById(Long patientId) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            return em.createQuery(
+                            "SELECT p FROM Patient p LEFT JOIN FETCH p.signes WHERE p.id_patient = :patientId",
+                            Patient.class
+                    )
+                    .setParameter("patientId", patientId)
+                    .getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }
