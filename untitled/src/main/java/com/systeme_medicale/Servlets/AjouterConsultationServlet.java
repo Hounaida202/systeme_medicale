@@ -17,12 +17,17 @@ public class AjouterConsultationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Long patientId = Long.parseLong(request.getParameter("patientId"));
-        String motif = request.getParameter("motif");
-        String observation = request.getParameter("observation");
+        try {
+            Long patientId = Long.parseLong(request.getParameter("patientId"));
+            String motif = request.getParameter("motif");
+            String observation = request.getParameter("observations");
 
-        consultationService.ajouterConsultation(patientId, motif, observation);
+            consultationService.ajouterConsultation(patientId, motif, observation);
 
-        response.sendRedirect("consultationpage.jsp");
+            response.sendRedirect("consultationpage.jsp");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("consultationpage.jsp?error=1");
+        }
     }
 }

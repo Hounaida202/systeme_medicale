@@ -25,23 +25,19 @@ public class FileDattente2Servlet extends HttpServlet {
 
             System.out.println("SERVLET: Patients récupérés - " +
                     (allPatients != null ? allPatients.size() : "null"));
-
-            // Toujours garantir une liste non-null
             if (allPatients == null) {
                 allPatients = new ArrayList<>();
-                System.out.println("SERVLET: Liste convertie de null à liste vide");
+//                System.out.println("SERVLET: Liste convertie de null à liste vide");
             }
 
             request.setAttribute("patients", allPatients);
 
         } catch (Exception e) {
             System.err.println("SERVLET: Erreur inattendue:");
-            e.printStackTrace();
-            request.setAttribute("patients", new ArrayList<>());
-            request.setAttribute("error", "Erreur technique: " + e.getMessage());
+//            e.printStackTrace();
+//            request.setAttribute("patients", new ArrayList<>());
+//            request.setAttribute("error", "Erreur technique: " + e.getMessage());
         }
-
-        System.out.println("=== SERVLET: Forward vers JSP ===");
         request.getRequestDispatcher("medecin.jsp").forward(request, response);
     }
 }

@@ -1,5 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %><%
+    String patientId = request.getParameter("patientId");
+    // Supprimez cette ligne: request.setAttribute("patientId", patientId);
+%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -77,7 +79,7 @@
                     <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mb-4">
                         MD
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800 text-center">Marie Dubois</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 text-center"></h2>
                     <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold mt-2">Patient Actif</span>
                 </div>
 
@@ -149,8 +151,9 @@
 
         <!-- Right Column - Consultation Form -->
         <div class="lg:col-span-2">
-            <form id="consultationForm" class="space-y-6">
-                <!-- Motif Section -->
+<%--            ---------------------------------------------------------------------%>
+            <form id="consultationForm" class="space-y-6" action="ajouterConsultationServlet" method="POST">
+                <input type="hidden" name="patientId" value="<%= patientId %>">                <!-- Motif Section -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 slide-in" style="animation-delay: 0.2s">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                         <span class="text-2xl">📋</span> Motif de la Consultation
@@ -231,6 +234,9 @@
                     <h3 class="text-lg font-bold text-gray-800 mb-4">Actions</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <!-- Envoyer les résultats -->
+
+
+
                         <button
                                 type="submit"
                                 class="px-6 py-4 bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-teal-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
@@ -240,6 +246,9 @@
                             </svg>
                             <span>Envoyer les résultats</span>
                         </button>
+
+
+
 
                         <!-- Demander une expertise -->
                         <button
@@ -289,81 +298,81 @@
     </div>
 </div>
 
-<script>
-    const consultationForm = document.getElementById('consultationForm');
-    const observations = document.getElementById('observations');
-    const charCount = document.getElementById('charCount');
-    const quickNotes = document.querySelectorAll('.quick-note');
-    const successModal = document.getElementById('successModal');
-    const closeModal = document.getElementById('closeModal');
-    const expertiseBtn = document.getElementById('expertiseBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
+<%--<script>--%>
+<%--    const consultationForm = document.getElementById('consultationForm');--%>
+<%--    const observations = document.getElementById('observations');--%>
+<%--    const charCount = document.getElementById('charCount');--%>
+<%--    const quickNotes = document.querySelectorAll('.quick-note');--%>
+<%--    const successModal = document.getElementById('successModal');--%>
+<%--    const closeModal = document.getElementById('closeModal');--%>
+<%--    const expertiseBtn = document.getElementById('expertiseBtn');--%>
+<%--    const cancelBtn = document.getElementById('cancelBtn');--%>
+<%--    const logoutBtn = document.getElementById('logoutBtn');--%>
 
-    // Character count
-    observations.addEventListener('input', function() {
-        charCount.textContent = `${this.value.length} caractères`;
-    });
+<%--    // Character count--%>
+<%--    observations.addEventListener('input', function() {--%>
+<%--        charCount.textContent = `${this.value.length} caractères`;--%>
+<%--    });--%>
 
-    // Quick notes
-    quickNotes.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const text = this.getAttribute('data-text');
-            observations.value += text;
-            observations.focus();
-            charCount.textContent = `${observations.value.length} caractères`;
-        });
-    });
+<%--    // Quick notes--%>
+<%--    quickNotes.forEach(btn => {--%>
+<%--        btn.addEventListener('click', function() {--%>
+<%--            const text = this.getAttribute('data-text');--%>
+<%--            observations.value += text;--%>
+<%--            observations.focus();--%>
+<%--            charCount.textContent = `${observations.value.length} caractères`;--%>
+<%--        });--%>
+<%--    });--%>
 
-    // Form submission
-    consultationForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+<%--    // Form submission--%>
+<%--    consultationForm.addEventListener('submit', function(e) {--%>
+<%--        e.preventDefault();--%>
 
-        const formData = {
-            patient: 'Marie Dubois',
-            motif: document.getElementById('motif').value,
-            motifDetails: document.getElementById('motifDetails').value,
-            observations: observations.value,
-            timestamp: new Date().toISOString()
-        };
+<%--        const formData = {--%>
+<%--            patient: 'Marie Dubois',--%>
+<%--            motif: document.getElementById('motif').value,--%>
+<%--            motifDetails: document.getElementById('motifDetails').value,--%>
+<%--            observations: observations.value,--%>
+<%--            timestamp: new Date().toISOString()--%>
+<%--        };--%>
 
-        console.log('Consultation envoyée:', formData);
+<%--        console.log('Consultation envoyée:', formData);--%>
 
-        // Show success modal
-        successModal.classList.remove('hidden');
-    });
+<%--        // Show success modal--%>
+<%--        successModal.classList.remove('hidden');--%>
+<%--    });--%>
 
-    // Close modal
-    closeModal.addEventListener('click', function() {
-        successModal.classList.add('hidden');
-        // window.location.href = 'file-attente.html';
-    });
+<%--    // Close modal--%>
+<%--    closeModal.addEventListener('click', function() {--%>
+<%--        successModal.classList.add('hidden');--%>
+<%--        // window.location.href = 'file-attente.html';--%>
+<%--    });--%>
 
-    // Expertise button
-    expertiseBtn.addEventListener('click', function() {
-        if (confirm('📋 Demander une expertise à un spécialiste ?\n\nVous allez être redirigé vers le formulaire de demande d\'expertise.')) {
-            console.log('Demande d\'expertise initiée');
-            alert('🩺 Votre demande d\'expertise sera envoyée aux spécialistes disponibles.');
-            // window.location.href = 'demande-expertise.html';
-        }
-    });
+<%--    // Expertise button--%>
+<%--    expertiseBtn.addEventListener('click', function() {--%>
+<%--        if (confirm('📋 Demander une expertise à un spécialiste ?\n\nVous allez être redirigé vers le formulaire de demande d\'expertise.')) {--%>
+<%--            console.log('Demande d\'expertise initiée');--%>
+<%--            alert('🩺 Votre demande d\'expertise sera envoyée aux spécialistes disponibles.');--%>
+<%--            // window.location.href = 'demande-expertise.html';--%>
+<%--        }--%>
+<%--    });--%>
 
-    // Cancel button
-    cancelBtn.addEventListener('click', function() {
-        if (confirm('⚠️ Êtes-vous sûr de vouloir annuler cette consultation ?\n\nToutes les données non enregistrées seront perdues.')) {
-            console.log('Consultation annulée');
-            // window.location.href = 'file-attente.html';
-        }
-    });
+<%--    // Cancel button--%>
+<%--    cancelBtn.addEventListener('click', function() {--%>
+<%--        if (confirm('⚠️ Êtes-vous sûr de vouloir annuler cette consultation ?\n\nToutes les données non enregistrées seront perdues.')) {--%>
+<%--            console.log('Consultation annulée');--%>
+<%--            // window.location.href = 'file-attente.html';--%>
+<%--        }--%>
+<%--    });--%>
 
-    // Logout
-    logoutBtn.addEventListener('click', function() {
-        if (confirm('⚠️ Attention ! Une consultation est en cours.\n\nÊtes-vous sûr de vouloir vous déconnecter ?')) {
-            console.log('Déconnexion...');
-            alert('À bientôt Dr. Dubois ! 💖');
-            // window.location.href = 'login.html';
-        }
-    });
-</script>
+<%--    // Logout--%>
+<%--    logoutBtn.addEventListener('click', function() {--%>
+<%--        if (confirm('⚠️ Attention ! Une consultation est en cours.\n\nÊtes-vous sûr de vouloir vous déconnecter ?')) {--%>
+<%--            console.log('Déconnexion...');--%>
+<%--            alert('À bientôt Dr. Dubois ! 💖');--%>
+<%--            // window.location.href = 'login.html';--%>
+<%--        }--%>
+<%--    });--%>
+<%--</script>--%>
 </body>
 </html>

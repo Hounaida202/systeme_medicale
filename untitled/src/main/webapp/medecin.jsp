@@ -201,9 +201,11 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="consultationpage.jsp"> <button  class="consult-btn ml-4 px-8 py-4 bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-teal-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap text-lg">
-                            Consulter
-                        </button></a>
+                        <a href="consultationpage.jsp?patientId=<%= patient.getId_patient() %>">
+                            <button class="consult-btn ml-4 px-8 py-4 bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-teal-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap text-lg">
+                                Consulter
+                            </button>
+                        </a>
 
                     </div>
                 </div>
