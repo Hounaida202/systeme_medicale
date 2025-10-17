@@ -23,6 +23,6 @@ public class AjouterConsultationServlet extends HttpServlet {
 
         consultationService.ajouterConsultation(patientId, motif, observation);
 
-        response.sendRedirect("medecin.jsp");
+        response.sendRedirect("consultationpage.jsp");
     }
 }

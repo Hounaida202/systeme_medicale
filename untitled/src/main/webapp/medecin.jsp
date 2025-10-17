@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.systeme_medicale.Entities.Patient" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -142,186 +145,80 @@
             </div>
 
             <!-- Search Bar -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 slide-in" style="animation-delay: 0.1s">
-                <div class="flex items-center gap-4">
-                    <div class="flex-1 relative">
-                        <svg class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                        <input
-                                type="text"
-                                id="searchInput"
-                                placeholder="🔍 Rechercher un patient (nom, prénom, numéro de sécurité sociale...)"
-                                class="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all outline-none text-gray-700"
-                        >
-                    </div>
-                    <button class="px-6 py-4 bg-gradient-to-r from-pink-400 to-purple-400 text-white font-semibold rounded-xl hover:from-pink-500 hover:to-purple-500 transition-all shadow-md">
-                        Rechercher
-                    </button>
-                </div>
-            </div>
+
 
             <!-- Patients Cards -->
             <div id="patientsContainer" class="space-y-4">
-                <!-- Patient 1 -->
+                <%
+                    List<Patient> patients = (List<Patient>) request.getAttribute("patients");
+                    if (patients != null && !patients.isEmpty()) {
+                        for (Patient patient : patients) {
+                %>
+
                 <div class="bg-white rounded-2xl shadow-lg p-6 slide-in hover:shadow-xl transition-all patient-card border-l-4 border-blue-400" style="animation-delay: 0.2s">
                     <div class="flex items-start justify-between">
                         <div class="flex gap-4 flex-1">
-                            <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
-                                MD
+                            <%
+                                String initials = "??";
+                                if (patient.getPrenom() != null && !patient.getPrenom().isEmpty() &&
+                                        patient.getNom() != null && !patient.getNom().isEmpty()) {
+                                    initials = patient.getPrenom().substring(0, 1).toUpperCase()
+                                            + patient.getNom().substring(0, 1).toUpperCase();
+                                }
+                            %>
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-400 text-white flex items-center justify-center rounded-full font-bold text-lg">
+                                <%= initials %>
                             </div>
+
                             <div class="flex-1">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <h3 class="text-2xl font-bold text-gray-800">Marie Dubois</h3>
+                                    <h3 class="text-xl font-bold text-gray-800">
+                                        <%= patient.getPrenom() %> <%= patient.getNom() %>
+                                    </h3>
                                     <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold flex items-center gap-1">
-                                            <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                                            En attente
-                                        </span>
-                                    <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
-                                            N°1
-                                        </span>
+                            <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                            En attente
+                        </span>
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                    <div class="flex items-center gap-3 text-gray-700">
-                                        <div class="w-10 h-10 bg-pink-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <span class="text-xl">🎂</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500 font-medium">Date de naissance</p>
-                                            <p class="font-semibold">15/03/1985 (40 ans)</p>
-                                        </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 font-medium">Date de naissance</p>
+                                        <p class="font-semibold"><%= patient.getDateNaissance() %></p>
                                     </div>
-                                    <div class="flex items-center gap-3 text-gray-700">
-                                        <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <span class="text-xl">🆔</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500 font-medium">Numéro de sécurité sociale</p>
-                                            <p class="font-semibold">2 85 03 56 750 123 45</p>
-                                        </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 font-medium">Numéro sécurité sociale</p>
+                                        <p class="font-semibold"><%= patient.getNumeroSecuriteSociale() %></p>
                                     </div>
-                                    <div class="flex items-center gap-3 text-gray-700">
-                                        <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <span class="text-xl">📞</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500 font-medium">Téléphone</p>
-                                            <p class="font-semibold">06 12 34 56 78</p>
-                                        </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 font-medium">Téléphone</p>
+                                        <p class="font-semibold"><%= patient.getTelephone() %></p>
                                     </div>
-                                    <div class="flex items-center gap-3 text-gray-700">
-                                        <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <span class="text-xl">🏠</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500 font-medium">Adresse</p>
-                                            <p class="font-semibold">12 Rue Victor Hugo, Paris</p>
-                                        </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 font-medium">Adresse</p>
+                                        <p class="font-semibold"><%= patient.getAdresse() %></p>
                                     </div>
-                                </div>
-
-                                <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span>Arrivée: 14:30 • Temps d'attente: 15 min</span>
                                 </div>
                             </div>
                         </div>
-                        <button class="consult-btn ml-4 px-8 py-4 bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-teal-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap text-lg">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                            </svg>
+                        <a href="consultationpage.jsp"> <button  class="consult-btn ml-4 px-8 py-4 bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-teal-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap text-lg">
                             Consulter
-                        </button>
+                        </button></a>
+
                     </div>
                 </div>
 
-                <!-- Patient 2 -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 slide-in hover:shadow-xl transition-all patient-card border-l-4 border-pink-400" style="animation-delay: 0.3s">
-                    <div class="flex items-start justify-between">
-                        <div class="flex gap-4 flex-1">
-                            <div class="w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
-                                JM
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <h3 class="text-2xl font-bold text-gray-800">Jean Martin</h3>
-                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold flex items-center gap-1">
-                                            <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                                            En attente
-                                        </span>
-                                    <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
-                                            N°2
-                                        </span>
-                                </div>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                    <div class="flex items-center gap-3 text-gray-700">
-                                        <div class="w-10 h-10 bg-pink-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <span class="text-xl">🎂</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500 font-medium">Date de naissance</p>
-                                            <p class="font-semibold">22/07/1978 (47 ans)</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-gray-700">
-                                        <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <span class="text-xl">🆔</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500 font-medium">Numéro de sécurité sociale</p>
-                                            <p class="font-semibold">1 78 07 56 780 987 65</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-gray-700">
-                                        <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <span class="text-xl">📞</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500 font-medium">Téléphone</p>
-                                            <p class="font-semibold">06 98 76 54 32</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-gray-700">
-                                        <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <span class="text-xl">🏠</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500 font-medium">Adresse</p>
-                                            <p class="font-semibold">45 Avenue des Champs, Lyon</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span>Arrivée: 14:45 • Temps d'attente: 5 min</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="consult-btn ml-4 px-8 py-4 bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-teal-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap text-lg">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                            </svg>
-                            Consulter
-                        </button>
-                    </div>
-                </div>
+                <%
+                    }
+                } else {
+                %>
+                <p class="text-center text-gray-500">Aucun patient en attente.</p>
+                <%
+                    }
+                %>
             </div>
+    </div> </div>
 
-            <!-- No Results Message -->
-            <div id="noResults" class="hidden bg-white rounded-2xl shadow-lg p-8 text-center">
-                <div class="text-6xl mb-4">🔍</div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">Aucun patient trouvé</h3>
-                <p class="text-gray-500">Essayez avec d'autres mots-clés</p>
-            </div>
-        </div>
-    </div>
 </main>
 
 <script>

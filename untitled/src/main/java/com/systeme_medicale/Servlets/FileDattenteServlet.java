@@ -21,14 +21,13 @@ public class FileDattenteServlet extends HttpServlet {
             throws ServletException, IOException {
         System.out.println("get en attente patients");
 
-        // 1️⃣ Récupérer la liste des patients en attente
         List<Patient> allPatients = patientService.getAttentePatients();
 
-        // 2️⃣ Attacher la liste à la requête
         request.setAttribute("patients", allPatients);
 
-        // 3️⃣ Rediriger vers la page JSP
         request.getRequestDispatcher("FileAttente.jsp").forward(request, response);
+        request.getRequestDispatcher("medecin.jsp").forward(request, response);
+
     }
 
 

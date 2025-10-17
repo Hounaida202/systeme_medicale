@@ -22,10 +22,8 @@ public class GeneralisteDAO {
                 consultation.setMotif(motif);
                 consultation.setObservation(observation);
                 consultation.setPatient(patient);
-
-                patient.setConsultation(consultation); // synchroniser côté patient
-
-                em.persist(consultation); // persister la consultation
+                patient.setConsultation(consultation);
+                em.persist(consultation);
             }
 
             em.getTransaction().commit();

@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             if ("infirmier".equalsIgnoreCase(role)) {
                 response.sendRedirect("infermiere.jsp");
             } else if ("medecin_general".equalsIgnoreCase(role)) {
-                response.sendRedirect("medecin.jsp");
+                response.sendRedirect("FileDattente2Servlet");
             } else {
                 request.setAttribute("errorMessage", "Rôle utilisateur non reconnu !");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
