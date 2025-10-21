@@ -25,7 +25,6 @@ public class LoginServlet extends HttpServlet {
         User user = userService.login(email, password);
 
         if (user != null) {
-            // Créer une session pour l'utilisateur
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("role", user.getRole());

@@ -27,14 +27,11 @@ public class UpdateSignesServlet extends HttpServlet {
 
         System.out.println("temperature: " + temperature);
 
-        // ✅ 1. Mise à jour du patient et de ses signes
         patientService.updatePatientAndSignes(id, temperature, tension, pouls);
 
-        // ✅ 2. Recharger la liste à jour
         List<Patient> patients = PatientDAO.getAllPatients();
         request.setAttribute("patients", patients);
 
-        // ✅ 3. Revenir à la même JSP via forward (pas redirect)
         request.getRequestDispatcher("PatientList.jsp").forward(request, response);
     }
 

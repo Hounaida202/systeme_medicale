@@ -4,6 +4,7 @@ import com.systeme_medicale.DAO.PatientDAO;
 import com.systeme_medicale.Entities.Patient;
 import com.systeme_medicale.Entities.Signe;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class PatientService {
     private PatientDAO patientDAO = new PatientDAO();
@@ -19,23 +20,13 @@ public class PatientService {
         System.out.println("Patient et signes sauvegardés");
     }
 
-    public List<Patient> getAllPatients() {
-        List<Patient> patients = PatientDAO.getAllPatients();
-        if (patients != null) {
-            System.out.println("Nombre de patients récupérés: " + patients.size());
-            for (Patient p : patients) {
-                System.out.println("Patient: " + p.getNom() + " " + p.getPrenom());
-                if (p.getSignes() != null) {
-                    System.out.println("Signes: " + p.getSignes().getTemperature());
-                } else {
-                    System.out.println("Aucun signe pour ce patient");
-                }
-            }
-        } else {
-            System.out.println("Aucun patient récupéré");
-        }
-        return patients;
-    }
+   public List<Patient> GetPatients(){
+        List<Patient> patients = patientDAO.getAllPatients();
+       return  patients.stream()
+                .filter(p->p.getDateNaissance() >LocaDate)
+                .to
+
+   }
     public List<Patient> getAttentePatients() {
         List<Patient> patients = PatientDAO.getAttentePatients();
         if (patients != null) {
