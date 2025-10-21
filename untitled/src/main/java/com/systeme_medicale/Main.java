@@ -10,6 +10,6 @@ public class Main {
         em.getTransaction().begin();
         em.getTransaction().commit();
         em.close();
-        System.out.println("bien");
+        System.out.println("Succes");
     }
 }
