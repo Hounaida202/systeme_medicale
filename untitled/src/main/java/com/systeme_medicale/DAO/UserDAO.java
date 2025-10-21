@@ -12,7 +12,9 @@ public class UserDAO {
         EntityManager em = JpaUtil.getEntityManager();
         em.getTransaction().begin();
         em.persist(user);
-        System.out.println("Utilisateur sauvegardé: " + user.getEmail()); // Debug
+//        -------------------------------
+        System.out.println(user.getFirstName());
+//        -------------------------------
 
         em.getTransaction().commit();
         em.close();
@@ -25,15 +27,15 @@ public class UserDAO {
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
             query.setParameter("email", email);
             user = query.getSingleResult();
+
         } catch (NoResultException e) {
-            System.out.println("Aucun utilisateur trouvé pour l'email : " + email);
+            System.out.println("cet email n existe pas :  " + user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            em.close();
         }
         return user;
     }
+
 
 
 }

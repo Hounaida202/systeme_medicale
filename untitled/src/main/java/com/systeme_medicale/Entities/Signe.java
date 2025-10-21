@@ -13,12 +13,10 @@ public class Signe {
     private String tension;
     private String pouls;
 
-    // 🔹 Correction de la relation
     @OneToOne
     @JoinColumn(name = "id_patient")
     private Patient patient;
 
-    // Constructeurs
     public Signe() {}
 
     public Signe(String temperature, String tension, String pouls, Patient patient) {
@@ -28,7 +26,6 @@ public class Signe {
         this.patient = patient;
     }
 
-    // Getters et Setters
     public int getId() {
         return id;
     }

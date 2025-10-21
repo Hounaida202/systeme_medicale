@@ -21,8 +21,6 @@ public class PatientDAO {
                 em.getTransaction().rollback();
             }
             e.printStackTrace();
-        } finally {
-            em.close();
         }
     }
 
@@ -37,8 +35,6 @@ public class PatientDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        } finally {
-            em.close();
         }
     }
     public static List<Patient> getAttentePatients() {
@@ -81,13 +77,12 @@ public class PatientDAO {
                             "SELECT p FROM Patient p LEFT JOIN FETCH p.signes WHERE p.id_patient = :patientId",
                             Patient.class
                     )
+
                     .setParameter("patientId", patientId)
                     .getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        } finally {
-            em.close();
         }
     }
 }

@@ -22,7 +22,7 @@ public class SignupServlet extends HttpServlet {
         if (userService.signup(firstname,lastname, email, password,role)) {
             request.getRequestDispatcher("Dashbaord.jsp").forward(request, response);
         } else {
-            response.getWriter().println("Email deja utilise !");
+            response.getWriter().println("Email deja utilise ");
         }
     }
 

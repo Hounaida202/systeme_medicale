@@ -26,7 +26,6 @@ public class FileDattenteServlet extends HttpServlet {
         request.setAttribute("patients", allPatients);
 
         request.getRequestDispatcher("FileAttente.jsp").forward(request, response);
-        request.getRequestDispatcher("medecin.jsp").forward(request, response);
 
     }
 

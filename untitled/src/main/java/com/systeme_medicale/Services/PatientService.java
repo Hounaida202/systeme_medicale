@@ -11,18 +11,12 @@ public class PatientService {
                                          String num_securite_sociale, String tele, String adresse,
                                          String temperature, String tension, String pouls) {
 
-        System.out.println("=== CRÉATION PATIENT ===");
-
         Patient patient = new Patient(nom, prenom, dateNaissance, num_securite_sociale, tele, adresse);
-        System.out.println("Patient créé: " + patient.getNom() + " " + patient.getPrenom());
-
         Signe signe = new Signe(temperature, tension, pouls, patient);
-        System.out.println("Signes créés: " + temperature + " / " + tension + " / " + pouls);
-
         patient.setSignes(signe);
 
         patientDAO.savePatient(patient);
-        System.out.println("Patient et signes sauvegardés !");
+        System.out.println("Patient et signes sauvegardés");
     }
 
     public List<Patient> getAllPatients() {

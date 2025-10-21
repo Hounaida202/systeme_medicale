@@ -37,7 +37,6 @@ public class Patient {
         this.adresse = adresse;
     }
 
-    // --- GETTERS & SETTERS ---
     public Long getId_patient() { return id_patient; }
     public void setId_patient(Long id_patient) { this.id_patient = id_patient; }
     public String getNom() { return nom; }
